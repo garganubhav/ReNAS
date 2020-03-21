@@ -1,0 +1,80 @@
+{
+	"trial_parameters": {
+		"trial_name": "trial-cifar10-resnet-debug-1",
+		"output_path": "../outputs/",
+		"type": "convolutions-macro",
+		"dataset": "cifar10",
+		"data_dir": "../data/cifar10/",
+		"save_frequency": 50,
+		"epochs": 200,
+                "mode": "final_arch"
+	},
+	"system_parameters": {
+		"gpus": true
+	},
+	"hyper_parameters": {
+		"optimizer": {"type": "momentum", "initial_lr": 0.002, "momentum": 0.9, "nesterov": true},
+		"lr_scheduler": {"type": "cosine_decay", "max": 0.003, "min": 2e-3, "T_mul": 2, "T_max": 200},
+		"regularization": {"type": "l2", "value": 5e-4},
+                "gradient_clipping":{
+                   "type": "norm",
+                   "value": 5.0
+                },
+		"batch_size": 128,
+                "cutout": {"size": 16}
+	},
+	"model_specification": {
+		"init_model": {
+			"layers": [
+				{
+					"block": "conv2d", "kernel_size": [3, 3], "outputs": 128,
+					"stride": 2, "activation": "relu"
+				}
+			],
+			"dropout": 0.2
+		},
+		"core_model": {
+			"blocks": [
+                                {
+					"block": "conv2d", "kernel_size": [3, 3]
+				},
+				{
+					"block": "conv2d", "kernel_size": [5, 5]	
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [3, 3]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [5, 5]
+				}
+			],
+			"reduction_block" : [
+				{
+					"block": "maxpool", "kernel_size": [2,2], "stride": 2
+				},
+				{
+					"block": "conv2d", "kernel_size": [2,2], "stride": 2
+				}
+			],
+                        "topology": {"1":"3", "11":"1", "12":"3", "13":"0", "14":"3", "2":"1", "3":"1", "4":"3", "6":"2", "7":"1", "8":"2", "9":"3"},
+			"reduction_layers" : [5, 10],
+			"num_layers": 14,
+			"dropout": 0.2,
+                        "batch_normalization": true,
+			"activation": "relu",
+                        "aux_head": {"aux_type":"cifar10", "aux_layer":9},
+                        "algorithm": {"type": "final_arch"}
+		},
+		"final_model": {
+			"layers": [
+				{
+					"block": "avg_pool"
+				},
+				{
+					"block": "fc", "outputs": 10
+				}
+			],
+			"dropout": 0.3
+		}
+	}
+}

@@ -1,0 +1,123 @@
+{
+	"trial_parameters": {
+		"trial_name": "trial-imagenet-200-epochs-final-arch",
+		"output_path": "../outputs/",
+		"type": "convolutions-macro",
+		"dataset": "Imagenet",
+		"data_imagenet_train": "/home/abhishs8/workspace/NAD/data/torch_style/train",
+                "data_imagenet_test": "/home/abhishs8/workspace/NAD/data/torch_style/val",
+		"save_frequency": 5,
+		"epochs": 1500,
+                "mode": "final_arch"
+	},
+	"system_parameters": {
+		"gpus": true
+	},
+	"hyper_parameters": {
+		"optimizer": {"type": "momentum", "initial_lr": 0.5, "momentum": 0.9, "nesterov": true},
+		"lr_scheduler": {"type": "cosine_decay", "max": 0.1, "min": 1e-3, "T_mul": 1, "T_max": 1500},
+		"regularization": {"type": "l2", "value": 5e-4},
+                "label_smoothing": {"num_classes":1001, "value":0.1},
+                "gradient_clipping":{
+                   "type": "norm",
+                   "value": 5.0
+                },
+		"batch_size": 128
+	},
+	"model_specification": {
+		"init_model": {
+			"layers": [
+				{
+					"block": "conv2d", "kernel_size": [3, 3], "outputs": 64,
+					"stride": 2, "activation": "relu"
+				},
+				{
+					"block": "conv2d", "kernel_size": [3, 3], "outputs": 64,
+					"stride": 2, "activation": "relu"
+				},
+				{
+					"block": "conv2d", "kernel_size": [3, 3], "outputs": 128,
+					"stride": 2, "activation": "relu"
+				}
+			],
+			"dropout": 0.2
+		},
+		"core_model": {
+			"blocks": [
+                                {
+					"block": "conv2d", "kernel_size": [3, 3]
+				},
+				{
+					"block": "conv2d", "kernel_size": [4, 4]
+				},
+				{
+					"block": "conv2d", "kernel_size": [5, 5]	
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [6, 6]
+				},
+				{
+					"block": "conv2d", "kernel_size": [2, 2]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [7, 7]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [8, 8]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [9, 9]
+				},
+				{
+					"block": "conv2d", "kernel_size": [2, 5]
+				},
+				{
+					"block": "conv2d", "kernel_size": [5, 2]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [4, 7]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [7, 4]
+				},
+				{
+					"block": "conv2d", "kernel_size": [3, 6]
+				},
+				{
+					"block": "conv2d", "kernel_size": [6, 3]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [5, 7]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [5, 7]
+				}
+			],
+			"reduction_block" : [
+				{
+					"block": "maxpool", "kernel_size": [2,2], "stride": 2
+				},
+				{
+					"block": "conv2d", "kernel_size": [2,2], "stride": 2
+				}
+			],
+                        "topology": {"1": "2","10": "4","11": "2","13": "2","14": "9","15": "9","2": "7","3": "12","5": "12","6": "1","7": "0","9": "12"},
+			"reduction_layers" : [3, 6, 9],
+			"num_layers": 12,
+			"dropout": 0.2,
+			"activation": "relu",
+                        "algorithm": {"type": "final_arch"}
+		},
+		"final_model": {
+			"layers": [
+				{
+					"block": "avg_pool"
+				},
+				{
+					"block": "fc", "outputs": 1001
+				}
+			],
+			"dropout": 0.3
+		}
+	}
+}

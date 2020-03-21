@@ -1,0 +1,103 @@
+{
+	"trial_parameters": {
+		"trial_name": "experiment2-nad",
+		"output_path": "../outputs/",
+		"type": "convolutions-macro",
+		"dataset": "Imagenet",
+		"data_imagenet_train": "../../train/",
+                "data_imagenet_test": "../../val/",
+		"save_frequency": 5,
+		"epochs": 500
+	},
+	"system_parameters": {
+		"gpus": true
+	},
+	"hyper_parameters": {
+		"optimizer": {"type": "adam", "initial_lr": 0.001},
+		"lr_scheduler": {"type": "cosine_decay", "max": 0.024, "min": 0.001, "T_mul": 1, "T_max": 610},
+		"regularization": {"type": "l2", "value": 5e-4},
+		"batch_size":8
+	},
+	"model_specification": {
+		"init_model": {
+			"layers": [
+				{
+					"block": "conv2d", "kernel_size": [3, 3], "outputs": 64,
+					"activation": "relu"
+				}
+			],
+			"dropout": 0.2
+		},
+		"core_model": {
+			"blocks": [
+				{
+					"block": "conv2d", "kernel_size": [3, 3]
+				},
+				{
+					"block": "conv2d", "kernel_size": [4, 4]
+				},
+				{
+					"block": "conv2d", "kernel_size": [5, 5]	
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [6, 6]
+				},
+				{
+					"block": "conv2d", "kernel_size": [2, 2]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [7, 7]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [8, 8]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [9, 9]
+				},
+				{
+					"block": "conv2d", "kernel_size": [2, 5]
+				},
+				{
+					"block": "conv2d", "kernel_size": [5, 2]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [4, 7]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [7, 4]
+				},
+				{
+					"block": "conv2d", "kernel_size": [3, 6]
+				},
+				{
+					"block": "conv2d", "kernel_size": [6, 3]
+				}
+			],
+			"reduction_block" : [
+				{
+					"block": "maxpool", "kernel_size": [2,2], "stride": 2
+				},
+				{
+					"block": "conv2d", "kernel_size": [2,2], "stride": 2
+				}
+			],
+			"reduction_layers" : [3, 6, 9],
+			"num_layers": 12,
+			"dropout": 0.2,
+			"activation": "relu",
+                        "algorithm": {"type": "nad", "final_prob": 0.1, "epochs": 500},
+                        "aux_head": {"aux_type": "cifar10", "aux_layer": 7}
+		},
+		"final_model": {
+			"layers": [
+				{
+					"block": "avg_pool"
+				},
+				{
+					"block": "fc", "outputs": 1000
+				}
+			],
+			"dropout": 0.3
+		}
+	}
+}

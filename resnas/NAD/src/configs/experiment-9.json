@@ -1,0 +1,115 @@
+{
+	"trial_parameters": {
+		"trial_name": "trial-cifar10-residual-style-fixed",
+		"output_path": "../outputs/",
+		"type": "convolutions-macro",
+		"dataset": "cifar10",
+		"data_dir": "../data/cifar10/",
+		"save_frequency": 50,
+		"epochs": 200,
+        "mode": "final_arch"
+	},
+	"system_parameters": {
+		"gpus": true
+	},
+	"hyper_parameters": {
+		"optimizer": {"type": "momentum", "initial_lr": 0.05, "momentum": 0.9, "nesterov": true},
+		"lr_scheduler": {"type": "cosine_decay", "max": 0.05, "min": 3e-4, "T_mul": 2, "T_max": 20},
+		"regularization": {"type": "l2", "value": 5e-4},
+                "gradient_clipping":{
+                   "type": "norm",
+                   "value": 5.0
+                },
+		"batch_size": 128,
+                "cutout": {"size": 16}
+	},
+	"model_specification": {
+		"init_model": {
+			"layers": [
+				{
+					"block": "conv2d", "kernel_size": [3, 3], "outputs": 128,
+					"stride": 2, "activation": "relu"
+				}
+			],
+			"dropout": 0.2
+		},
+		"core_model": {
+			"blocks": [
+                                {
+					"block": "conv2d", "kernel_size": [3, 3]
+				},
+				{
+					"block": "conv2d", "kernel_size": [4, 4]
+				},
+				{
+					"block": "conv2d", "kernel_size": [5, 5]	
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [6, 6]
+				},
+				{
+					"block": "conv2d", "kernel_size": [2, 2]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [7, 7]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [8, 8]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [9, 9]
+				},
+				{
+					"block": "conv2d", "kernel_size": [2, 5]
+				},
+				{
+					"block": "conv2d", "kernel_size": [5, 2]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [4, 7]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [7, 4]
+				},
+				{
+					"block": "conv2d", "kernel_size": [3, 6]
+				},
+				{
+					"block": "conv2d", "kernel_size": [6, 3]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [5, 7]
+				},
+				{
+					"block": "conv2d_depth", "kernel_size": [5, 7]
+				}
+			],
+			"reduction_block" : [
+				{
+					"block": "maxpool", "kernel_size": [2,2], "stride": 2
+				},
+				{
+					"block": "conv2d", "kernel_size": [2,2], "stride": 2
+				}
+			],
+                        "topology": {"1": "2","10": "4","11": "2","13": "2","14": "9","15": "9","2": "7","3": "12","5": "12","6": "1","7": "0","9": "12"},
+			"reduction_layers" : [4, 8, 12],
+			"num_layers": 15,
+			"dropout": 0.2,
+                        "batch_normalization": true,
+			"activation": "relu",
+                        "algorithm": {"type": "final_arch"}
+		},
+		"final_model": {
+			"layers": [
+				{
+					"block": "avg_pool"
+				},
+				{
+					"block": "fc", "outputs": 10
+				}
+			],
+			"dropout": 0.3
+		}
+	}
+}

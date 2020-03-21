@@ -1,0 +1,309 @@
+{
+	"trial_parameters": {
+		"trial_name": "UCB-search-250",
+		"output_path": "../outputs/",
+		"type": "convolutions-macro",
+		"dataset": "cifar10",
+		"data_dir":"../data/cifar10",
+		"save_frequency": 10,
+		"epochs": 251,
+                "mode": "search_arch"
+	},
+	"system_parameters": {
+		"gpus": true
+	},
+	"hyper_parameters": {
+		"optimizer": {"type": "momentum", "initial_lr": 0.08, "momentum": 0.9, "nesterov": true},
+                "comment":{"type": "adam", "initial_lr": 0.001},
+		"lr_scheduler": {"type": "cosine_decay", "max": 0.05, "min": 5e-3, "epochs_max_initial": 10, "width_multiplier": 2},
+		"regularization": {"type": "l2", "value": 5e-4},
+		"batch_size":256,
+                "gradient_clipping":{
+                   "type": "norm",
+                   "value": 5.0
+                }
+	},
+	"model_specification": {
+		"init_model": {
+			"layers": [
+				{
+					"block": "conv2d", "kernel_size": [3, 3], "outputs": 64,
+					"activation": "relu"
+				}
+			],
+			"dropout": 0.2
+		},
+		"core_model": {
+			"blocks": [
+{
+		"block": "conv2d", "kernel_size": [1, 1], "index": 0
+},
+{
+		"block": "conv2d", "kernel_size": [1, 2], "index": 1
+},
+{
+		"block": "conv2d", "kernel_size": [1, 3], "index": 2
+},
+{
+		"block": "conv2d", "kernel_size": [1, 4], "index": 3
+},
+{
+		"block": "conv2d", "kernel_size": [1, 5], "index": 4
+},
+{
+		"block": "conv2d", "kernel_size": [1, 6], "index": 5
+},
+{
+		"block": "conv2d", "kernel_size": [1, 7], "index": 6
+},
+{
+		"block": "conv2d", "kernel_size": [1, 8], "index": 7
+},
+{
+		"block": "conv2d", "kernel_size": [1, 9], "index": 8
+},
+{
+		"block": "conv2d", "kernel_size": [2, 1], "index": 9
+},
+{
+		"block": "conv2d", "kernel_size": [2, 2], "index": 10
+},
+{
+		"block": "conv2d", "kernel_size": [2, 3], "index": 11
+},
+{
+		"block": "conv2d", "kernel_size": [2, 4], "index": 12
+},
+{
+		"block": "conv2d_depth", "kernel_size": [2, 5], "index": 13
+},
+{
+		"block": "conv2d_depth", "kernel_size": [2, 6], "index": 14
+},
+{
+		"block": "conv2d_depth", "kernel_size": [2, 7], "index": 15
+},
+{
+		"block": "conv2d_depth", "kernel_size": [2, 8], "index": 16
+},
+{
+		"block": "conv2d_depth", "kernel_size": [2, 9], "index": 17
+},
+{
+		"block": "conv2d", "kernel_size": [3, 1], "index": 18
+},
+{
+		"block": "conv2d", "kernel_size": [3, 2], "index": 19
+},
+{
+		"block": "conv2d", "kernel_size": [3, 3], "index": 20
+},
+{
+		"block": "conv2d_depth", "kernel_size": [3, 4], "index": 21
+},
+{
+		"block": "conv2d_depth", "kernel_size": [3, 5], "index": 22
+},
+{
+		"block": "conv2d_depth", "kernel_size": [3, 6], "index": 23
+},
+{
+		"block": "conv2d_depth", "kernel_size": [3, 7], "index": 24
+},
+{
+		"block": "conv2d_depth", "kernel_size": [3, 8], "index": 25
+},
+{
+		"block": "conv2d_depth", "kernel_size": [3, 9], "index": 26
+},
+{
+		"block": "conv2d", "kernel_size": [4, 1], "index": 27
+},
+{
+		"block": "conv2d", "kernel_size": [4, 2], "index": 28
+},
+{
+		"block": "conv2d_depth", "kernel_size": [4, 3], "index": 29
+},
+{
+		"block": "conv2d_depth", "kernel_size": [4, 4], "index": 30
+},
+{
+		"block": "conv2d_depth", "kernel_size": [4, 5], "index": 31
+},
+{
+		"block": "conv2d_depth", "kernel_size": [4, 6], "index": 32
+},
+{
+		"block": "conv2d_depth", "kernel_size": [4, 7], "index": 33
+},
+{
+		"block": "conv2d_depth", "kernel_size": [4, 8], "index": 34
+},
+{
+		"block": "conv2d_depth", "kernel_size": [4, 9], "index": 35
+},
+{
+		"block": "conv2d", "kernel_size": [5, 1], "index": 36
+},
+{
+		"block": "conv2d_depth", "kernel_size": [5, 2], "index": 37
+},
+{
+		"block": "conv2d_depth", "kernel_size": [5, 3], "index": 38
+},
+{
+		"block": "conv2d_depth", "kernel_size": [5, 4], "index": 39
+},
+{
+		"block": "conv2d_depth", "kernel_size": [5, 5], "index": 40
+},
+{
+		"block": "conv2d_depth", "kernel_size": [5, 6], "index": 41
+},
+{
+		"block": "conv2d_depth", "kernel_size": [5, 7], "index": 42
+},
+{
+		"block": "conv2d_depth", "kernel_size": [5, 8], "index": 43
+},
+{
+		"block": "conv2d_depth", "kernel_size": [5, 9], "index": 44
+},
+{
+		"block": "conv2d", "kernel_size": [6, 1], "index": 45
+},
+{
+		"block": "conv2d_depth", "kernel_size": [6, 2], "index": 46
+},
+{
+		"block": "conv2d_depth", "kernel_size": [6, 3], "index": 47
+},
+{
+		"block": "conv2d_depth", "kernel_size": [6, 4], "index": 48
+},
+{
+		"block": "conv2d_depth", "kernel_size": [6, 5], "index": 49
+},
+{
+		"block": "conv2d_depth", "kernel_size": [6, 6], "index": 50
+},
+{
+		"block": "conv2d_depth", "kernel_size": [6, 7], "index": 51
+},
+{
+		"block": "conv2d_depth", "kernel_size": [6, 8], "index": 52
+},
+{
+		"block": "conv2d_depth", "kernel_size": [6, 9], "index": 53
+},
+{
+		"block": "conv2d", "kernel_size": [7, 1], "index": 54
+},
+{
+		"block": "conv2d_depth", "kernel_size": [7, 2], "index": 55
+},
+{
+		"block": "conv2d_depth", "kernel_size": [7, 3], "index": 56
+},
+{
+		"block": "conv2d_depth", "kernel_size": [7, 4], "index": 57
+},
+{
+		"block": "conv2d_depth", "kernel_size": [7, 5], "index": 58
+},
+{
+		"block": "conv2d_depth", "kernel_size": [7, 6], "index": 59
+},
+{
+		"block": "conv2d_depth", "kernel_size": [7, 7], "index": 60
+},
+{
+		"block": "conv2d_depth", "kernel_size": [7, 8], "index": 61
+},
+{
+		"block": "conv2d_depth", "kernel_size": [7, 9], "index": 62
+},
+{
+		"block": "conv2d", "kernel_size": [8, 1], "index": 63
+},
+{
+		"block": "conv2d_depth", "kernel_size": [8, 2], "index": 64
+},
+{
+		"block": "conv2d_depth", "kernel_size": [8, 3], "index": 65
+},
+{
+		"block": "conv2d_depth", "kernel_size": [8, 4], "index": 66
+},
+{
+		"block": "conv2d_depth", "kernel_size": [8, 5], "index": 67
+},
+{
+		"block": "conv2d_depth", "kernel_size": [8, 6], "index": 68
+},
+{
+		"block": "conv2d_depth", "kernel_size": [8, 7], "index": 69
+},
+{
+		"block": "conv2d_depth", "kernel_size": [8, 8], "index": 70
+},
+{
+		"block": "conv2d_depth", "kernel_size": [8, 9], "index": 71
+},
+{
+		"block": "conv2d", "kernel_size": [9, 1], "index": 72
+},
+{
+		"block": "conv2d_depth", "kernel_size": [9, 2], "index": 73
+},
+{
+		"block": "conv2d_depth", "kernel_size": [9, 3], "index": 74
+},
+{
+		"block": "conv2d_depth", "kernel_size": [9, 4], "index": 75
+},
+{
+		"block": "conv2d_depth", "kernel_size": [9, 5], "index": 76
+},
+{
+		"block": "conv2d_depth", "kernel_size": [9, 6], "index": 77
+},
+{
+		"block": "conv2d_depth", "kernel_size": [9, 7], "index": 78
+},
+{
+		"block": "conv2d_depth", "kernel_size": [9, 8], "index": 79
+},
+{
+		"block": "conv2d_depth", "kernel_size": [9, 9], "index": 80
+}
+			],
+			"reduction_block" : [
+				{
+					"block": "maxpool", "kernel_size": [2,2], "stride": 2
+				},
+				{
+					"block": "conv2d", "kernel_size": [2,2], "stride": 2
+				}
+			],
+			"reduction_layers" : [3, 6, 9],
+			"num_layers": 12,
+			"dropout": 0.2,
+			"activation": "relu",
+                        "batch_normalization": true,
+                        "algorithm": {"type": "nad", "final_prob": 0.0707, "epochs": 251}
+		},
+		"final_model": {
+			"layers": [
+				{
+					"block": "avg_pool"
+				},
+				{
+					"block": "fc", "outputs": 10
+				}
+			],
+			"dropout": 0.3
+		}
+	}
+}
